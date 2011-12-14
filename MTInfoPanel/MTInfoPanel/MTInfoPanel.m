@@ -15,10 +15,10 @@
 
 @interface MTInfoPanel ()
 
-@property (nonatomic, unsafe_unretained) IBOutlet UILabel *titleLabel;
-@property (nonatomic, unsafe_unretained) IBOutlet UILabel *detailLabel;
-@property (nonatomic, unsafe_unretained) IBOutlet UIImageView *thumbImage;
-@property (nonatomic, unsafe_unretained) IBOutlet UIImageView *backgroundGradient;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *detailLabel;
+@property (nonatomic, strong) UIImageView *thumbImage;
+@property (nonatomic, strong) UIView *backgroundGradient;
 
 + (MTInfoPanel *)infoPanel;
 
@@ -87,7 +87,7 @@
             detailColor = MT_RGBA(210, 210, 235, 1.0);
             
             if (image == nil) {
-                image = [UIImage imageNamed:@"Tick"];
+                image = [UIImage imageNamed:@"MTInfoPanel.bundle/Tick"];
             }
             break;
         }
@@ -98,7 +98,7 @@
             detailColor = MT_RGBA(210, 210, 235, 1.0);
             
             if (image == nil) {
-                image = [UIImage imageNamed:@"Notice"];
+                image = [UIImage imageNamed:@"MTInfoPanel.bundle/Notice"];
             }
             break;
         }
@@ -109,7 +109,7 @@
             detailColor = MT_RGBA(59, 69, 39, 1.0000);
             
             if (image == nil) {
-                image = [UIImage imageNamed:@"Tick"];
+                image = [UIImage imageNamed:@"MTInfoPanel.bundle/Tick"];
             }
             break;
         }
@@ -121,7 +121,7 @@
             detailColor = MT_RGBA(97, 61, 24, 1.0000);
             
             if (image == nil) {
-                image = [UIImage imageNamed:@"Warning"];
+                image = [UIImage imageNamed:@"MTInfoPanel.bundle/Warning"];
             }
             break;
         }
@@ -133,7 +133,7 @@
             detailColor = MT_RGBA(255, 166, 166, 1.0);
             
             if (image == nil) {
-                image = [UIImage imageNamed:@"Warning"];
+                image = [UIImage imageNamed:@"MTInfoPanel.bundle/Warning"];
             }            
             break;
         }
@@ -231,18 +231,18 @@
 }
 
 - (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if ((self = [super initWithFrame:frame])) {
         [self setup];
     }
+    
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
+    if ((self = [super initWithCoder:aDecoder])) {
         [self setup];
     }
+    
     return self;
 }
 
@@ -373,8 +373,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 +(MTInfoPanel *)infoPanel {
-    MTInfoPanel *panel =  (MTInfoPanel *)[[[UINib nibWithNibName:@"MTInfoPanel" bundle:nil] 
-                                           instantiateWithOwner:self options:nil] objectAtIndex:0];
+    MTInfoPanel *panel =  [[MTInfoPanel alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 50.f)];
     
     CATransition *transition = [CATransition animation];
 	transition.duration = 0.25;
@@ -387,6 +386,23 @@
 }
 
 - (void)setup {
+    backgroundGradient_ = [[UIView alloc] initWithFrame:self.bounds];
+    backgroundGradient_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self addSubview:backgroundGradient_];
+    
+    titleLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f,4.f,240.f,21.f)];
+    titleLabel_.backgroundColor = [UIColor clearColor];
+    titleLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    [self addSubview:titleLabel_];
+    
+    detailLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f, 25.f, 251.f, 32.f)];
+    detailLabel_.backgroundColor = [UIColor clearColor];
+    detailLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [self addSubview:detailLabel_];
+    
+    thumbImage_ = [[UIImageView alloc] initWithFrame:CGRectMake(12.f, 8.f, 37.f, 34.f)];
+    [self addSubview:thumbImage_];
+    
     self.onTouched = @selector(hidePanel);
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 }

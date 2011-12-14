@@ -19,7 +19,6 @@
 		9B96FBD314994575003935F9 /* MTInfoPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTInfoPanel.h; sourceTree = "<group>"; };
 		9B96FBD414994575003935F9 /* MTInfoPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTInfoPanel.m; sourceTree = "<group>"; };
 		9B96FBDC149946F2003935F9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		9B96FBDE149947AE003935F9 /* MTInfoPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MTInfoPanel.xib; sourceTree = "<group>"; };
 		9B96FBE0149947F5003935F9 /* MTInfoPanel.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MTInfoPanel.bundle; path = Resources/MTInfoPanel.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +67,6 @@
 			children = (
 				9B96FBD314994575003935F9 /* MTInfoPanel.h */,
 				9B96FBD414994575003935F9 /* MTInfoPanel.m */,
-				9B96FBDE149947AE003935F9 /* MTInfoPanel.xib */,
 				9B96FBD114994575003935F9 /* Supporting Files */,
 			);
 			path = MTInfoPanel;
@@ -206,6 +204,7 @@
 				DSTROOT = /tmp/MTInfoPanel.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTInfoPanel/MTInfoPanel-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -218,6 +217,7 @@
 				DSTROOT = /tmp/MTInfoPanel.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MTInfoPanel/MTInfoPanel-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -243,6 +243,7 @@
 				9B96FBDA14994575003935F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
