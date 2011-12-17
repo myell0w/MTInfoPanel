@@ -23,7 +23,6 @@
 + (MTInfoPanel *)infoPanel;
 
 - (void)setup;
-
 - (void)setBackgroundGradientFrom:(UIColor *)fromColor to:(UIColor *)toColor;
 - (UIColor *)changeColor:(UIColor *)sourceColor withFactor:(CGFloat)factor;
 
@@ -75,8 +74,8 @@
                        hideAfter:(NSTimeInterval)interval {
     UIColor *startColor = nil;
     UIColor *endColor = nil;
-    UIFont *titleFont = [UIFont boldSystemFontOfSize:15];
-    UIFont *detailFont = [UIFont systemFontOfSize:13];
+    UIFont *titleFont = [UIFont boldSystemFontOfSize:14.];
+    UIFont *detailFont = [UIFont systemFontOfSize:14.];
     UIColor *titleColor = [UIColor whiteColor];
     UIColor *detailColor = nil;
     
@@ -184,7 +183,7 @@
         
         panelHeight = MAX(CGRectGetMaxY(panel.thumbImage.frame), CGRectGetMaxY(panel.detailLabel.frame));
         // padding at bottom
-        panelHeight += 10.f;
+        panelHeight += 7.f;
     } else {
         panel.detailLabel.hidden = YES;
         panel.thumbImage.frame = CGRectMake(15, 5, 35, 35);
@@ -271,26 +270,29 @@
 
 -(void)setBackgroundGradientFrom:(UIColor *)fromColor to:(UIColor *)toColor {
     CAGradientLayer *gradient = [CAGradientLayer layer];
+    CGFloat lineHeight = 1.f;
+    UIColor *lightColor = [self changeColor:fromColor withFactor:1.2];
+    UIColor *darkColor = [self changeColor:toColor withFactor:0.25];
+    
     gradient.frame = self.backgroundGradient.bounds;
     gradient.colors = [NSArray arrayWithObjects:(id)[fromColor CGColor], (id)[toColor CGColor], nil];
     
-    CGFloat lineHeight = 3.0;
-    // light startline
-    CAGradientLayer *startLine = [CAGradientLayer layer];
-    startLine.frame = CGRectMake(0, 0, self.backgroundGradient.bounds.size.width, lineHeight);
-    UIColor *lightColor = [self changeColor:fromColor withFactor:1.1];
-    startLine.colors = [NSArray arrayWithObjects:(id)[fromColor CGColor], (id)[lightColor CGColor], nil];
+    CAGradientLayer *darkTopLine = [CAGradientLayer layer];
+    darkTopLine.frame = CGRectMake(0, 0, self.backgroundGradient.bounds.size.width, lineHeight);
+    darkTopLine.colors = [NSArray arrayWithObjects:(id)[darkColor CGColor], (id)[darkColor CGColor], nil];
     
-    // dark endline
-    CAGradientLayer *endLine = [CAGradientLayer layer];
-    CGFloat endPosition = self.backgroundGradient.bounds.size.height - lineHeight;
-    endLine.frame = CGRectMake(0, endPosition, self.backgroundGradient.bounds.size.width, lineHeight);
-    UIColor *darkColor = [self changeColor:toColor withFactor:0.7];
-    endLine.colors = [NSArray arrayWithObjects:(id)[toColor CGColor], (id)[darkColor CGColor], nil];
+    CAGradientLayer *lightTopLine = [CAGradientLayer layer];
+    lightTopLine.frame = CGRectMake(0, 1, self.backgroundGradient.bounds.size.width, lineHeight);
+    lightTopLine.colors = [NSArray arrayWithObjects:(id)[lightColor CGColor], (id)[lightColor CGColor], nil];
+    
+    CAGradientLayer *darkEndLine = [CAGradientLayer layer];
+    darkEndLine.frame = CGRectMake(0, self.backgroundGradient.bounds.size.height - lineHeight, self.backgroundGradient.bounds.size.width, lineHeight);
+    darkEndLine.colors = [NSArray arrayWithObjects:(id)[darkColor CGColor], (id)[darkColor CGColor], nil];
     
     [self.backgroundGradient.layer insertSublayer:gradient atIndex:0];
-    [self.backgroundGradient.layer insertSublayer:startLine atIndex:1];
-    [self.backgroundGradient.layer insertSublayer:endLine atIndex:2];
+    [self.backgroundGradient.layer insertSublayer:darkTopLine atIndex:1];
+    [self.backgroundGradient.layer insertSublayer:lightTopLine atIndex:2];
+    [self.backgroundGradient.layer insertSublayer:darkEndLine atIndex:3];
 }
 
 - (UIColor *)changeColor:(UIColor *)sourceColor withFactor:(CGFloat)factor {
@@ -372,7 +374,7 @@
 #pragma mark Private
 ////////////////////////////////////////////////////////////////////////
 
-+(MTInfoPanel *)infoPanel {
++ (MTInfoPanel *)infoPanel {
     MTInfoPanel *panel =  [[MTInfoPanel alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 50.f)];
     
     CATransition *transition = [CATransition animation];
@@ -386,22 +388,34 @@
 }
 
 - (void)setup {
+    self.opaque = NO;
+    self.layer.shadowOffset = CGSizeMake(0.f, 2.f);
+    self.layer.shadowRadius = 2.5f;
+    self.layer.shadowOpacity = 0.7;
+    
     backgroundGradient_ = [[UIView alloc] initWithFrame:self.bounds];
     backgroundGradient_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    backgroundGradient_.alpha = 0.88f;
     [self addSubview:backgroundGradient_];
     
-    titleLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f,4.f,240.f,21.f)];
+    titleLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f,7.f,240.f,19.f)];
     titleLabel_.backgroundColor = [UIColor clearColor];
     titleLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    
+    titleLabel_.layer.shadowOffset = CGSizeMake(0.f, -0.5f);
+    titleLabel_.layer.shadowColor = [UIColor blackColor].CGColor;
+	titleLabel_.layer.shadowRadius = 0.5f;
+	titleLabel_.layer.shadowOpacity = 0.95;
+    
     [self addSubview:titleLabel_];
     
-    detailLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f, 25.f, 251.f, 32.f)];
+    detailLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f, 26.f, 251.f, 32.f)];
     detailLabel_.backgroundColor = [UIColor clearColor];
-    detailLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     detailLabel_.numberOfLines = 0;
+    detailLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self addSubview:detailLabel_];
     
-    thumbImage_ = [[UIImageView alloc] initWithFrame:CGRectMake(12.f, 8.f, 37.f, 34.f)];
+    thumbImage_ = [[UIImageView alloc] initWithFrame:CGRectMake(9.f, 9.f, 37.f, 34.f)];
     [self addSubview:thumbImage_];
     
     self.onTouched = @selector(hidePanel);
