@@ -398,6 +398,7 @@
     detailLabel_ = [[UILabel alloc] initWithFrame:CGRectMake(57.f, 25.f, 251.f, 32.f)];
     detailLabel_.backgroundColor = [UIColor clearColor];
     detailLabel_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    detailLabel_.numberOfLines = 0;
     [self addSubview:detailLabel_];
     
     thumbImage_ = [[UIImageView alloc] initWithFrame:CGRectMake(12.f, 8.f, 37.f, 34.f)];
