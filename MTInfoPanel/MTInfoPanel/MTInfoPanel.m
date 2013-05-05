@@ -365,7 +365,7 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    [self performSelector:onTouched_];
+    [delegate_ performSelector:onTouched_];
 #pragma clang diagnostic pop
 }
 
